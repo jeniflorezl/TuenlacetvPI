@@ -49,7 +49,6 @@ ActiveRecord::Schema.define(version: 20171117182432) do
     t.char "tipo", limit: 2, null: false
     t.varchar "descripcion", limit: 50, null: false
     t.char "operacion", limit: 1, null: false
-    t.money "valor", precision: 19, scale: 4, null: false
     t.char "clase", limit: 1, null: false
     t.float "iva", null: false
     t.char "tipodoc", limit: 3, null: false
@@ -69,11 +68,14 @@ ActiveRecord::Schema.define(version: 20171117182432) do
 
   create_table "zones", force: :cascade do |t|
     t.char "tipo", limit: 2, null: false
+    t.bigint "city_id"
     t.varchar "nombre", limit: 50, null: false
     t.varchar "dirquejas", limit: 100
     t.datetime "fechacre", default: -> { "getdate()" }
     t.datetime "fechacam", default: -> { "getdate()" }
     t.varchar "usuario", limit: 15, null: false
+    t.index ["city_id"], name: "index_zones_on_city_id"
   end
 
+  add_foreign_key "zones", "cities"
 end
