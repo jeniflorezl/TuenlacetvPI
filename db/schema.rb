@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171117182432) do
+ActiveRecord::Schema.define(version: 20171121040005) do
 
   create_table "cities", force: :cascade do |t|
     t.varchar "nombre", limit: 80, null: false
@@ -49,11 +49,27 @@ ActiveRecord::Schema.define(version: 20171117182432) do
     t.char "tipo", limit: 2, null: false
     t.varchar "descripcion", limit: 50, null: false
     t.char "operacion", limit: 1, null: false
-    t.money "valor", precision: 19, scale: 4, null: false
     t.char "clase", limit: 1, null: false
     t.float "iva", null: false
     t.char "tipodoc", limit: 3, null: false
     t.varchar "observa", limit: 100
+    t.datetime "fechacre", default: -> { "getdate()" }
+    t.datetime "fechacam", default: -> { "getdate()" }
+    t.varchar "usuario", limit: 15, null: false
+  end
+
+  create_table "neighborhoods", force: :cascade do |t|
+    t.char "tipo", limit: 2, null: false
+    t.bigint "zone_id"
+    t.varchar "nombre", limit: 50, null: false
+    t.datetime "fechacre", default: -> { "getdate()" }
+    t.datetime "fechacam", default: -> { "getdate()" }
+    t.varchar "usuario", limit: 15, null: false
+    t.index ["zone_id"], name: "index_neighborhoods_on_zone_id"
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.varchar "nombre", limit: 50, null: false
     t.datetime "fechacre", default: -> { "getdate()" }
     t.datetime "fechacam", default: -> { "getdate()" }
     t.varchar "usuario", limit: 15, null: false
@@ -67,13 +83,36 @@ ActiveRecord::Schema.define(version: 20171117182432) do
     t.index ["principal_id", "name"], name: "UK_principal_name", unique: true
   end
 
-  create_table "zones", force: :cascade do |t|
-    t.char "tipo", limit: 2, null: false
+  create_table "technologies", force: :cascade do |t|
     t.varchar "nombre", limit: 50, null: false
-    t.varchar "dirquejas", limit: 100
     t.datetime "fechacre", default: -> { "getdate()" }
     t.datetime "fechacam", default: -> { "getdate()" }
     t.varchar "usuario", limit: 15, null: false
   end
 
+  create_table "type_documents", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "type_installations", force: :cascade do |t|
+    t.varchar "nombre", limit: 50, null: false
+    t.datetime "fechacre", default: -> { "getdate()" }
+    t.datetime "fechacam", default: -> { "getdate()" }
+    t.varchar "usuario", limit: 15, null: false
+  end
+
+  create_table "zones", force: :cascade do |t|
+    t.char "tipo", limit: 2, null: false
+    t.bigint "city_id"
+    t.varchar "nombre", limit: 50, null: false
+    t.varchar "dirquejas", limit: 100
+    t.datetime "fechacre", default: -> { "getdate()" }
+    t.datetime "fechacam", default: -> { "getdate()" }
+    t.varchar "usuario", limit: 15, null: false
+    t.index ["city_id"], name: "index_zones_on_city_id"
+  end
+
+  add_foreign_key "neighborhoods", "zones"
+  add_foreign_key "zones", "cities"
 end

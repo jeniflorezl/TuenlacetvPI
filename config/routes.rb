@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
-  resources :zones
+  resources :zones do
+    resources :neighborhoods
+  end
   resources :companies
 end
