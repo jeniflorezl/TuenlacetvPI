@@ -1,0 +1,2 @@
+class TypeInstallation < ApplicationRecord
+end
