@@ -1,10 +1,8 @@
 class CreateZones < ActiveRecord::Migration[5.1]
   def up
     create_table :zones do |t|
-      t.char :tipo, limit: 2, null:false
       t.references :city, foreign_key: true
       t.varchar :nombre, limit: 50, null:false
-      t.varchar :dirquejas, limit: 100
       t.datetime :fechacre
       t.datetime :fechacam
       t.varchar :usuario, limit: 15, null:false

@@ -1,7 +1,6 @@
 class CreateConcepts < ActiveRecord::Migration[5.1]
   def up
     create_table :concepts do |t|
-      t.char :tipo, limit: 2, null:false
       t.varchar :descripcion, limit: 50, null:false
       t.char :operacion, limit: 1, null:false
       t.char :clase, limit: 1, null:false
