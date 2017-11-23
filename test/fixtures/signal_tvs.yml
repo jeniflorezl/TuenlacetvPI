@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  entity: one
+  neighborhood: one
+  zone: one
+  rate: one
+  type_installation: one
+  technology: one
+
+two:
+  entity: two
+  neighborhood: two
+  zone: two
+  rate: two
+  type_installation: two
+  technology: two
