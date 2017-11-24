@@ -55,7 +55,7 @@ class ZonesController < ApplicationController
     @id = params[:id]
     @nombre = params[:nombre]
     if @id
-      @zone = Zone.where(id: @id)
+      @zone = Zone.find(params[:id])
     else
       @zone = Zone.where(nombre: @nombre)
       #byebug
