@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  type_document: one
+  neighborhood: one
+  zone: one
+
+two:
+  type_document: two
+  neighborhood: two
+  zone: two
