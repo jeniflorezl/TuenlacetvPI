@@ -1,5 +1,4 @@
 class ConceptsController < ApplicationController
-    before_action :company
     before_action :set_concept, only: [:show, :update, :destroy]
   
     # GET /conceptos
@@ -19,18 +18,11 @@ class ConceptsController < ApplicationController
     # POST /conceptos.json
     def create
       @concept = Concept.new(concept_params)
-      @concept.tipo = company
       if @concept.save 
         render json: { status: :created }
       else
         render json: @concept.errors, status: :unprocessable_entity
       end
-    end
-  
-    # Trae el tipo de empresas
-    def company
-      @company = Company.first
-      tipo = @company.tipo
     end
   
     # PATCH/PUT /conceptos/id
@@ -65,7 +57,7 @@ class ConceptsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def concept_params
-      params.require(:concept).permit(:tipo, :descripcion, :operacion, :valor, :clase, :iva,
+      params.require(:concept).permit(:descripcion, :operacion, :valor, :clase, :iva,
       :tipodoc, :observa :usuario)
     end 
 end

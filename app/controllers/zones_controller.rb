@@ -1,5 +1,4 @@
 class ZonesController < ApplicationController
-  before_action :company
   before_action :set_zone, only: [:show, :update, :destroy]
 
   # GET /zonas
@@ -11,6 +10,8 @@ class ZonesController < ApplicationController
 
   # GET /zonas/id
   # GET /zonas/id.json
+  # GET /zonas/nombre
+  # GET /zonas/nombre.json
   def show
     render json: @zone
   end
@@ -19,18 +20,11 @@ class ZonesController < ApplicationController
   # POST /zonas.json
   def create
     @zone = Zone.new(zone_params)
-    @zone.tipo = company
     if @zone.save 
       render json: { status: :created }
     else
       render json: @zone.errors, status: :unprocessable_entity
     end
-  end
-
-  # Trae el tipo de empresas
-  def company
-    @company = Company.first
-    tipo = @company.tipo
   end
 
   # PATCH/PUT /zonas/id
@@ -56,15 +50,23 @@ class ZonesController < ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
 
-  # Me busca la zona por el id
+  # Me busca la zona por el id o el nombre
   def set_zone
-    @zone = Zone.find(params[:id])
+    @id = params[:id]
+    @nombre = params[:nombre]
+    if @id
+      @zone = Zone.where(id: @id)
+    else
+      @zone = Zone.where(nombre: @nombre)
+      #byebug
+    end
+    
   end
 
   #Le coloco los parametros que necesito de la zona para crearla y actualizarla
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def zone_params
-    params.require(:zone).permit(:tipo, :nombre, :dirquejas, :usuario)
+    params.require(:zone).permit(:city_id, :nombre, :dirquejas, :usuario)
   end 
 end

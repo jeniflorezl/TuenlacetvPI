@@ -1,5 +1,5 @@
 class NeighborhoodsController < ApplicationController
-    before_action :company, :set_zone
+    before_action :set_zone
     before_action :set_neighborhood, only: [:show, :update, :destroy]
   
     # GET /zona_id/barrios
@@ -19,19 +19,11 @@ class NeighborhoodsController < ApplicationController
     # POST /zona_id/barrios.json
     def create
       @neighborhood = @zone.neighborhoods.new(neighborhood_params)
-      @neighborhood.tipo = company
-      #@zona = empresa(@zona)
       if @neighborhood.save 
         render json: { status: :created }
       else
         render json: @neighborhood.errors, status: :unprocessable_entity
       end
-    end
-  
-    # Trae el tipo de empresas
-    def company
-        @company = Company.first
-        tipo = @company.tipo
     end
   
     # PATCH/PUT /zonas/1/barrios/id
@@ -72,6 +64,6 @@ class NeighborhoodsController < ApplicationController
     #Le coloco los parametros que necesito del barrio para crearlo y actualizarlo
     # Never trust parameters from the scary internet, only allow the white list through.
     def neighborhood_params
-      params.require(:neighborhood).permit(:tipo, :nombre, :usuario)
+      params.require(:neighborhood).permit(:nombre, :usuario)
     end 
 end

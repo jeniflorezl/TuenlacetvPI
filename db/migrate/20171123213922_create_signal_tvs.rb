@@ -1,5 +1,5 @@
 class CreateSignalTvs < ActiveRecord::Migration[5.1]
-  def change
+  def up
     create_table :signal_tvs do |t|
       t.references :entity, foreign_key: true
       t.varchar :contrato, limit: 20

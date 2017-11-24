@@ -1,9 +1,9 @@
 class CreateRates < ActiveRecord::Migration[5.1]
   def up
     create_table :rates do |t|
-      t.references :plan, foreign_key: true
       t.references :zone, foreign_key: true
       t.references :concept, foreign_key: true
+      t.references :plan, foreign_key: true
       t.money :valor, null:false
       t.char :estado, limit: 1
       t.datetime :fechacre

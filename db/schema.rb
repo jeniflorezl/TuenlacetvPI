@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 20171123213922) do
     t.varchar "usuario", limit: 15, null: false
     t.index ["zone_id"], name: "index_neighborhoods_on_zone_id"
   end
-  
+
   create_table "people", force: :cascade do |t|
     t.bigint "type_document_id"
     t.varchar "documento", limit: 12, null: false
@@ -115,9 +115,9 @@ ActiveRecord::Schema.define(version: 20171123213922) do
   end
 
   create_table "rates", force: :cascade do |t|
-    t.bigint "plan_id"
     t.bigint "zone_id"
     t.bigint "concept_id"
+    t.bigint "plan_id"
     t.money "valor", precision: 19, scale: 4, null: false
     t.char "estado", limit: 1
     t.datetime "fechacre", default: -> { "getdate()" }
