@@ -19,4 +19,16 @@ Rails.application.routes.draw do
   get 'users/login/:login', to: 'users#show'
   get 'users/nombre/:nombre', to: 'users#show'
   get 'users/id/:id/clave/:clave', to: 'users#change_password'
+  get 'people/documento/:documento', to: 'people#show'
+  get 'people/nombre1/:nombre1', to: 'people#show'
+  get 'people/nombre2/:nombre2', to: 'people#show'
+  get 'people/apellido1/:apellido1', to: 'people#show'
+  get 'people/apellido2/:apellido2', to: 'people#show'
+  get 'people/zona/:zone_id', to: 'people#show'
+  get 'people/barrio/:neighborhood_id', to: 'people#show'
+  get 'people/telefono1/:telefono1', to: 'people#show'
+  get 'people/direccion/:direccion', to: 'people#show'
+  get 'people/funcion/:function_id', to: 'people#show'
+  get 'signal_tvs/:campo/:valor', to: 'signal_tvs#show'
+
 end
