@@ -1,5 +1,6 @@
 class NeighborhoodsController < ApplicationController
-    before_action :set_neighborhood, only: [:show, :update, :destroy]
+  before_action :set_neighborhood_buscar, only: [:show]
+  before_action :set_neighborhood, only: [:update, :destroy]
   
     # GET /barrios
     # GET /barrios.json
@@ -15,7 +16,7 @@ class NeighborhoodsController < ApplicationController
      # GET /barrios/nombre
     # GET /barrios/nombre.json
     def show
-      render json: @neighborhood
+      render json: [*@neighborhood]
     end
   
     # POST /barrios
@@ -32,6 +33,8 @@ class NeighborhoodsController < ApplicationController
     # PATCH/PUT /barrios/id
     # PATCH/PUT /barrios/id.json
     def update
+      t = Time.now
+      @neighborhood.fechacam = t.strftime("%d/%m/%Y %H:%M:%S")
         if @neighborhood.update(neighborhood_params)
           render json: { :message => "Success!" }
         else
@@ -54,17 +57,20 @@ class NeighborhoodsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
 
     # Me busca el barrio por el id, por el id de la zona o por el nombre 
-    def set_neighborhood
-      @id = params[:id]
-      @zona_id = params[:zone_id]
-      @nombre = params[:nombre]
-      if @id
-        @neighborhood = Neighborhood.find(params[:id])
-      elsif @zona_id
-        @neighborhood = Neighborhood.where(zone_id: @zona_id)
+    def set_neighborhood_buscar
+      @campo = params[:campo]
+      @valor = params[:valor]
+      if @campo == 'codigo'
+        @neighborhood = Neighborhood.find(params[:valor])
+      elsif @campo == 'zona'
+        @neighborhood = Neighborhood.where(zone_id: @valor)
       else
-        @neighborhood = Neighborhood.where(nombre: @nombre)
+        @neighborhood = Neighborhood.where(nombre: @valor)
       end
+    end
+
+    def set_neighborhood
+      @neighborhood = Neighborhood.find(params[:id])
     end
 
     #Le coloco los parametros que necesito del barrio para crearlo y actualizarlo

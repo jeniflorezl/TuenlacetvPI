@@ -3,7 +3,7 @@ class CreateUsers < ActiveRecord::Migration[5.1]
     create_table :users do |t|
       t.varchar :login, limit: 10, null:false
       t.varchar :nombre, limit: 80, null:false
-      t.char :clave, limit: 15, null:false
+      t.varchar :clave, limit: 15, null:false
       t.char :nivel, limit: 1
       t.datetime :fechacre
       t.datetime :fechacam

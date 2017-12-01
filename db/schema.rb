@@ -201,7 +201,7 @@ ActiveRecord::Schema.define(version: 20171124032828) do
   create_table "users", force: :cascade do |t|
     t.varchar "login", limit: 10, null: false
     t.varchar "nombre", limit: 80, null: false
-    t.char "clave", limit: 15, null: false
+    t.varchar "clave", limit: 15, null: false
     t.char "nivel", limit: 1
     t.datetime "fechacre", default: -> { "getdate()" }
     t.datetime "fechacam", default: -> { "getdate()" }

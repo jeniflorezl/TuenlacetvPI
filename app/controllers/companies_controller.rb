@@ -11,7 +11,7 @@ class CompaniesController < ApplicationController
         # GET /empresas/id
         # GET /empresas/id.json
         def show
-            render json: @company
+            render json: [*@company]
         end
 
         # POST /empresas
@@ -28,6 +28,8 @@ class CompaniesController < ApplicationController
         # PATCH/PUT /empresas/id
         # PATCH/PUT /empresas/id.json
         def update
+            t = Time.now
+            @company.fechacam = t.strftime("%d/%m/%Y %H:%M:%S")
             if @company.update(company_params)
                 render json: { :message => "Success!" }
             else

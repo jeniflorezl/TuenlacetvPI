@@ -5,7 +5,7 @@ class ConceptsController < ApplicationController
     # GET /conceptos.json
     def index
       @concepts = Concept.all
-      render json: @concepts
+      render json: [*@concepts]
     end
   
     # GET /conceptos/id
@@ -28,6 +28,8 @@ class ConceptsController < ApplicationController
     # PATCH/PUT /conceptos/id
     # PATCH/PUT /conceptos/id.json
     def update
+      t = Time.now
+      @concept.fechacam = t.strftime("%d/%m/%Y %H:%M:%S")
         if @concept.update(concept_params)
           render json: { :message => "Success!" }
         else

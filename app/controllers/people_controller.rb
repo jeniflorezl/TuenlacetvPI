@@ -1,5 +1,6 @@
 class PeopleController < ApplicationController
-    before_action :set_person, only: [:show, :update, :destroy]
+  before_action :set_person_buscar, only: [:show]
+  before_action :set_person, only: [:update, :destroy]
     
       # GET /personas
       # GET /personas.json
@@ -29,23 +30,28 @@ class PeopleController < ApplicationController
       # GET /personas/funcion
       # GET /personas/funcion.json
       def show
-        render json: @person
+        render json: [*@person]
       end
     
       # POST /personas
       # POST /personas.json
       def create
+        @funcion = params[:funcion]
         @person = Person.new(person_params)
         if @person.save 
-          render json: { status: :created }
-        else
-          render json: @person.errors, status: :unprocessable_entity
+          if createEntity()
+            render json: [*@entity]
+          else
+            render json: @person.errors, status: :unprocessable_entity
+         end
         end
       end
     
       # PATCH/PUT /personas/id
       # PATCH/PUT /personas/id.json
       def update
+        t = Time.now
+        @person.fechacam = t.strftime("%d/%m/%Y %H:%M:%S")
           if @person.update(person_params)
             render json: { :message => "Success!" }
           else
@@ -68,7 +74,7 @@ class PeopleController < ApplicationController
     
       # Me busca la persona por el id, o el nit, o el nombre1, o el nombre2, o el apellido1,
       # o el apellido2, o la zona, o el barrio, o el telefono1, o la funcion
-      def set_person
+      def set_person_buscar
         @id = params[:id]
         @documento = params[:documento]
         @nombre1 = params[:nombre1]
@@ -105,6 +111,21 @@ class PeopleController < ApplicationController
           #@person = Person.joins("INNER JOIN entities ON entities.person_id = people.id AND entities.function_id = '#{@funcion}'")
         end
         
+      end
+
+      def set_person
+        @person = Person.find(params[:id])
+      end
+
+      #crear entidad
+      def createEntity
+        @idPerson = @person.id
+        @usuario = @person.usuario
+        entity = { "function_id" => @funcion, "person_id" => @idPerson, "usuario" => @usuario}
+        @entity = Entity.new(entity)
+        if @entity.save 
+          return true
+        end
       end
     
       #Le coloco los parametros que necesito de la zona para crearla y actualizarla

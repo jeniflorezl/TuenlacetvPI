@@ -1,5 +1,6 @@
 class RatesController < ApplicationController
-    before_action :set_rate, only: [:show, :update, :destroy]
+  before_action :set_rate_buscar, only: [:show]
+  before_action :set_rate, only: [:update, :destroy]
   
     # GET /tarifas
     # GET /tarifas.json
@@ -17,7 +18,7 @@ class RatesController < ApplicationController
     # GET /tarifas/valor
     # GET /tarifas/valor.json
     def show
-      render json: @rate
+      render json: [*@rate]
     end
   
     # POST /tarifas
@@ -34,6 +35,8 @@ class RatesController < ApplicationController
     # PATCH/PUT /tarifas/id
     # PATCH/PUT /tarifas/id.json
     def update
+      t = Time.now
+      @rate.fechacam = t.strftime("%d/%m/%Y %H:%M:%S")
         if @rate.update(rate_params)
           render json: { :message => "Success!" }
         else
@@ -55,22 +58,24 @@ class RatesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
 
     # Me busca la tarifa por el id, por la zona, o el concepto, o el plan, o el valor
-    def set_rate
-      @id = params[:id]
-      @zona_id = params[:zone_id]
-      @concepto_id = params[:concept_id]
-      @plan_id = params[:plan_id]
+    def set_rate_buscar
+      @campo = params[:campo]
       @valor = params[:valor]
-      if @id
-       @rate = Rate.find(params[:id])
-      elsif @zona_id
-        @rate = Rate.where(zone_id: @zona_id)
-      elsif @concepto_id
-        @rate = Rate.where(concept_id: @concepto_id)
-      elsif @plan_id
-        @rate = Rate.where(plan_id: @plan_id)
-      else 
-        @rate = Rate.where(valor: @valor)
+      if @campo == 'codigo'
+        @rate = Rate.find(params[:valor])
+      elsif @campo == 'zona'
+        @rate = Rate.limit(10).where(zone_id: @valor)
+      elsif @campo == 'concepto'
+        @rate = Rate.limit(10).where(concept_id: @valor)
+      elsif @campo == 'plan'
+        @rate = Rate.limit(10).where(plan_id: @valor)
+      else
+        @rate = Rate.limit(10).where(valor: @valor)
+      end
+    end
+
+    def set_rate
+      @rate = Rate.find(params[:id])
     end
 
     #Le coloco los parametros que necesito de la tarifa para crearla y actualizarla
@@ -78,6 +83,6 @@ class RatesController < ApplicationController
     def rate_params
       params.require(:rate).permit(:zone_id, :concept_id, :plan_id, :valor, :estado, :usuario)
     end 
-end
+
 
 end
