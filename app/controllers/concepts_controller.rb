@@ -59,7 +59,6 @@ class ConceptsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def concept_params
-      params.require(:concept).permit(:descripcion, :operacion, :valor, :clase, :iva,
-      :tipodoc, :observa :usuario)
+      params.require(:concept).permit(:descripcion, :operacion, :clase, :iva, :tipodoc, :observa :usuario)
     end 
 end
