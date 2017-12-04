@@ -5,8 +5,21 @@ class SignalTvsController < ApplicationController
       # GET /señales
       # GET /señales.json
       def index
-        @signals = SignalTv.all
-        render json: @signals
+        query = <<-SQL 
+        SELECT TOP(10) * FROM signals;
+        SQL
+        @signals = ActiveRecord::Base.connection.select_all(query)
+        #@signals = SignalTv.all
+        @neighborhoods = Neighborhood.all
+        @zones = Zone.all
+        @rates = Rate.all
+        @type_installations = TypeInstallation.all
+        @technologys = Technology.all
+        @type_documents = TypeDocument.all
+        #render json: @signals
+        render json: { :signals => @signals, :neighborhoods => @neighborhoods, :zones => @zones, 
+        :rates => @rates, :type_installations => @type_installations, :technologys => @technologys,
+        :type_documents => @type_documents }
       end
     
       # GET /señales/direccion

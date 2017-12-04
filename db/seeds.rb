@@ -5,3 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+Zone.create(nombre: 'ZONA GENERAL', usuario: 'admin')
+Zone.create(nombre: 'ZONA NORTE', usuario: 'admin')
+Zone.create(nombre: 'ZONA CENTRO', usuario: 'admin')
+Zone.create(nombre: 'ZONA SUR', usuario: 'admin')
+Neighborhood.create(nombre: 'PRADO', usuario: 'admin')

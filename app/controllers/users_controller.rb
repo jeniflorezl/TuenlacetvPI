@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_rol
+  before_action :set_rol, only: [:show, :create, :update, :destroy]
   before_action :set_user_buscar, only: [:show]
   before_action :set_user, only: [:update, :destroy]
 

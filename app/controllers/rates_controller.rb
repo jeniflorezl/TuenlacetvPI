@@ -6,7 +6,11 @@ class RatesController < ApplicationController
     # GET /tarifas.json
     def index
       @rates = Rate.all
-      render json: @rates
+      @zones = Zone.all
+      @concepts = Concept.all
+      @plans = Plan.all
+      #render json: @rates
+      render json: { :rates => @rates, :zones => @zones, :concepts => @concepts, :plans => @plans } 
     end
   
     # GET /tarifas/id

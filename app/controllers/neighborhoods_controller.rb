@@ -6,14 +6,16 @@ class NeighborhoodsController < ApplicationController
     # GET /barrios.json
     def index
       @neighborhoods =  Neighborhood.all
-      render json: @neighborhoods
+      @zones = Zone.all
+      #render json: @neighborhoods
+      render json: { :neighborhoods => @neighborhoods, :zones => @zones } 
     end
 
     # GET /barrios/id
     # GET /barrios/id.json
-     # GET /barrios/zona_id
+    # GET /barrios/zona_id
     # GET /barrios/zona_id.json
-     # GET /barrios/nombre
+    # GET /barrios/nombre
     # GET /barrios/nombre.json
     def show
       render json: [*@neighborhood]
@@ -65,7 +67,8 @@ class NeighborhoodsController < ApplicationController
       elsif @campo == 'zona'
         @neighborhood = Neighborhood.where(zone_id: @valor)
       else
-        @neighborhood = Neighborhood.where(nombre: @valor)
+        @neighborhood = Neighborhood.limit(10).where("nombre LIKE '%#{@valor}%'")
+        #@neighborhood = Neighborhood.where(nombre: @valor)
       end
     end
 

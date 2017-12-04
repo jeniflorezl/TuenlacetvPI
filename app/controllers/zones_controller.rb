@@ -66,6 +66,7 @@ class ZonesController < ApplicationController
     else
       @zone = Zone.limit(10).where("nombre LIKE '%#{@valor}%'")
     end
+    
   end
 
   def set_zone

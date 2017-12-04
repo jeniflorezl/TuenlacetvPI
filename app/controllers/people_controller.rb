@@ -6,7 +6,12 @@ class PeopleController < ApplicationController
       # GET /personas.json
       def index
         @people = Person.all
-        render json: @people
+        @type_documents = TypeDocument.all
+        @neighborhoods = Neighborhood.all
+        @zones = Zone.all
+        #render json: @people
+        render json: { :people => @people, :type_documents => @type_documents, :neighborhoods => @neighborhoods, 
+        :zones => @zones } 
       end
     
       # GET /personas/id
@@ -39,6 +44,7 @@ class PeopleController < ApplicationController
         @funcion = params[:funcion]
         @person = Person.new(person_params)
         if @person.save 
+          #byebug
           if createEntity()
             render json: [*@entity]
           else
@@ -71,48 +77,6 @@ class PeopleController < ApplicationController
     
       private
       # Use callbacks to share common setup or constraints between actions.
-    
-      # Me busca la persona por el id, o el nit, o el nombre1, o el nombre2, o el apellido1,
-      # o el apellido2, o la zona, o el barrio, o el telefono1, o la funcion
-      def set_person_buscar
-        @id = params[:id]
-        @documento = params[:documento]
-        @nombre1 = params[:nombre1]
-        @nombre2 = params[:nombre2]
-        @apellido1 = params[:apellido1]
-        @apellido2 = params[:apellido2]
-        @zona = params[:zone_id]
-        @barrio = params[:neighborhood_id]
-        @telefono1 = params[:telefono1]
-        @direccion = params[:direccion]
-        @funcion = params[:function_id]
-        if @id
-          @person = Person.find(params[:id])
-        elsif @documento
-          @person = Person.where(documento: @documento)
-        elsif @nombre1
-          @person = Person.where(nombre1: @nombre1)
-        elsif @nombre2
-          @person = Person.where(nombre2: @nombre2)
-        elsif @apellido1
-          @person = Person.where(apellido1: @apellido1)
-        elsif @apellido2
-          @person = Person.where(apellido2: @apellido2)
-        elsif @zona
-          @person = Person.where(zone_id: @zona)
-        elsif @barrio
-          @person = Person.where(neighborhood_id: @barrio)
-        elsif @telefono1
-          @person = Person.where(telefono1: @telefono1)
-        elsif @direccion
-          @person = Person.where(direccion: @direccion)
-        elsif @funcion
-          @person = Person.joins(:entities).where('entities.function_id' => @funcion)
-          #@person = Person.joins("INNER JOIN entities ON entities.person_id = people.id AND entities.function_id = '#{@funcion}'")
-        end
-        
-      end
-
       def set_person
         @person = Person.find(params[:id])
       end
