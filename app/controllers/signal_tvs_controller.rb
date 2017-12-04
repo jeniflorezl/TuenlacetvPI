@@ -59,9 +59,11 @@ class SignalTvsController < ApplicationController
       # DELETE /señales/id.json
       def destroy
         if @signal.destroy()
-          render json: { :message => "Success!" }
-       else
-          render json: { :message => "La zona no pudo ser eliminada" }
+          if @entity.destroy()
+              render json: { :message => "Success!" }
+          else
+              render json: { :message => "La zona no pudo ser eliminada" }
+          end
        end
       end
     
@@ -81,7 +83,7 @@ class SignalTvsController < ApplicationController
       end
 
       def set_signal
-        @entity = Entity.find(params[:id])
+        @entity = Entity.find(params[:identidad])
         @signal = SignalTv.find(params[:id])
       end
      
