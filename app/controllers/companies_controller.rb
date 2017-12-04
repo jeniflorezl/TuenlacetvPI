@@ -1,11 +1,14 @@
 class CompaniesController < ApplicationController
-    before_action :set_company, only: [:show, :update, :destroy]
+    before_action :set_company_buscar, only: [:show]
+    before_action :set_company, only: [:update, :destroy]
     
         # GET /empresas
         # GET /empresas.json
         def index
             @companies = Company.all
-            render json: @companies
+            @cities = City.all
+            #render json: @companies
+            render json: { :companies => @companies, :cities => @cities }
         end
     
         # GET /empresas/id
@@ -18,6 +21,7 @@ class CompaniesController < ApplicationController
         # POST /empresas.json
         def create
             @company = Company.new(company_params)
+            @company.tipo = '01'
             if @company.save 
                 render json: { status: :created }
             else
@@ -54,12 +58,27 @@ class CompaniesController < ApplicationController
             def set_company
                 @company = Company.find(params[:id]);
             end
+
+            def set_company_buscar
+                @campo = params[:campo]
+                @valor = params[:valor]
+                query = <<-SQL 
+                SELECT TOP(10) * FROM companies WHERE #{@campo} LIKE '%#{@valor}%';
+                SQL
+                @company = ActiveRecord::Base.connection.select_all(query)
+                #if @campo == 'nit'
+                  #@zone = Company.find(params[:valor])
+                #else
+                 # @zone = Company.limit(10).where("nombre LIKE '%#{@valor}%'")
+                #end
+                
+              end
     
             #Le coloco los parametros que necesito de la empresa para crearla y actualizarla
 
             # Never trust parameters from the scary internet, only allow the white list through.
             def company_params
-                params.require(:company).permit(:tipo, :nit, :nombre, :direccion, :telefono1, :telefono2, 
+                params.require(:company).permit(:nit, :nombre, :direccion, :telefono1, :telefono2, 
                 :fax, :contacto, :correo, :regimen, :actividade, :contribuyente, :resolucionCntv, 
                 :representante, :idciudad, :prefijo, :titulo1, :titulo2, :logo, :usuario)
             end 

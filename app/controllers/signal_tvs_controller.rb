@@ -81,6 +81,7 @@ class SignalTvsController < ApplicationController
       end
 
       def set_signal
+        @entity = Entity.find(params[:id])
         @signal = SignalTv.find(params[:id])
       end
      

@@ -1,15 +1,12 @@
 class UsersController < ApplicationController
-  before_action :set_rol, only: [:show, :create, :update, :destroy]
   before_action :set_user_buscar, only: [:show]
   before_action :set_user, only: [:update, :destroy]
 
       # GET /usuarios
       # GET /usuarios.json
       def index
-        if (@permiso)
-          @users = User.all
-          render json: @users
-        end
+        @users = User.all
+        render json: @users
       end
     
       # GET /usuarios/id
@@ -23,14 +20,12 @@ class UsersController < ApplicationController
       # POST /usuarios
       # POST /usuarios.json
       def create
-        if (@permiso)
           @user = User.new(user_params)
           if @user.save 
             render json: { status: :created }
           else
             render json: @user.errors, status: :unprocessable_entity
           end
-        end
       end
     
       # PATCH/PUT /usuarios/id
@@ -38,25 +33,21 @@ class UsersController < ApplicationController
       def update
         t = Time.now
         @user.fechacam = t.strftime("%d/%m/%Y %H:%M:%S")
-        if(@permiso)
             if @user.update(user_params)
               render json: { :message => "Success!" }
             else
               render json: @user.errors, status: :unprocessable_entity
             end
-          end
         end
     
       # DELETE /usuarios/id
       # DELETE /usuarios/id.json
       def destroy
-        if(@permiso)
           if @user.destroy()
               render json: { :message => "Success!" }
           else
               render json: { :message => "La zona no pudo ser eliminada" }
           end
-        end
       end
 
       def change_password
@@ -99,11 +90,13 @@ class UsersController < ApplicationController
         @user = User.find(params[:id])
       end
 
-      def set_rol
-        if (@user.nivel == '1')
-          @permiso = true
-        end
-      end
+      #def set_rol
+        #@usuario = params[:usuario]
+        #@user = User.where("login LIKE '%#{@usuario}%'")
+        #if (@user.nivel == '1')
+         # @permiso = true
+        #end
+      #end
     
       #Le coloco los parametros que necesito de la zona para crearla y actualizarla
     
