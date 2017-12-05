@@ -5,7 +5,7 @@ class SignalTv < ApplicationRecord
   belongs_to :rate
   belongs_to :type_installation
   belongs_to :technology
-  validates :contrato, :direccion, :estrato, :vivienda, :telefono1, :neighborhood_id, :zone_id, 
-  :fechacontrato, :numerotvs, :estado, :rate, :type_installation, :technology,
-  :tiposervicio, :areainstalacion, :usuario,  presence: true #obligatorio
+  validates :entity_id, :direccion, :estrato, :vivienda, :telefono1, :neighborhood_id, :zone_id, 
+  :fechacontrato, :numerotvs, :estado, :rate_id, :type_installation_id, :technology_id, :tiposervicio, 
+  :areainstalacion, :usuario,  presence: true #obligatorio
 end

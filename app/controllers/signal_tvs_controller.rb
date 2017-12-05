@@ -93,7 +93,7 @@ class SignalTvsController < ApplicationController
       # Never trust parameters from the scary internet, only allow the white list through.
       def signal_params
         params.require(:signal_tv).permit(:entity_id, :contrato, :direccion, :urbanizacion, :torre, :apto, 
-        :estrato, :vivienda, :telefono1, :telefono2, :contacto,:neighborhood_id, :zone_id, 
+        :estrato, :vivienda, :telefono1, :telefono2, :contacto, :neighborhood_id, :zone_id, 
         :fechacontrato, :numerotvs, :estado, :rate_id, :precinto, :type_installation_id, :technology_id,
         :tiposervicio, :areainstalacion, :usuario)
       end 
